@@ -161,8 +161,8 @@ class ImageGeometry(object):
 
     @dtype.setter
     def dtype(self, val):
-        self.__dtype = val           
-
+        self.__dtype = val   
+                
     def __init__(self, 
                  voxel_num_x=0, 
                  voxel_num_y=0, 
@@ -190,6 +190,8 @@ class ImageGeometry(object):
         self.channel_spacing = 1.0
         self.dimension_labels = kwargs.get('dimension_labels', None)
         self.dtype = kwargs.get('dtype', numpy.float32)
+        self.device = kwargs.get('device', 'cpu')
+    
 
     def subset(self, dimensions=None, **kw):
         '''Returns a new sliced and/or reshaped ImageGeometry'''
@@ -295,7 +297,7 @@ class ImageGeometry(object):
         :type value: number or string, default None allocates empty memory block, default 0
         :param dtype: numerical type to allocate
         :type dtype: numpy type, default numpy.float32
-        '''
+        ''' 
 
         dtype = kwargs.get('dtype', self.dtype)
 
@@ -303,8 +305,10 @@ class ImageGeometry(object):
             raise ValueError("Deprecated: 'dimension_labels' cannot be set with 'allocate()'. Use 'geometry.set_labels()' to modify the geometry before using allocate.")
 
         out = ImageData(geometry=self.copy(), 
-                            dtype=dtype, 
-                            suppress_warning=True)
+                        dtype=dtype, 
+                        suppress_warning=True)
+
+        module = out.array_module                                  
 
         if isinstance(value, Number):
             # it's created empty, so we make it 0
@@ -313,19 +317,19 @@ class ImageGeometry(object):
             if value == ImageGeometry.RANDOM:
                 seed = kwargs.get('seed', None)
                 if seed is not None:
-                    numpy.random.seed(seed)
-                if dtype in [ numpy.complex , numpy.complex64 , numpy.complex128 ] :
-                    r = numpy.random.random_sample(self.shape) + 1j * numpy.random.random_sample(self.shape)
+                    module.random.seed(seed)
+                if dtype in [ module.complex , module.complex64 , module.complex128 ] :
+                    r = module.random.random_sample(self.shape) + 1j * module.random.random_sample(self.shape)
                     out.fill(r)
                 else: 
-                    out.fill(numpy.random.random_sample(self.shape))
+                    out.fill(module.random.random_sample(self.shape))
             elif value == ImageGeometry.RANDOM_INT:
                 seed = kwargs.get('seed', None)
                 if seed is not None:
-                    numpy.random.seed(seed)
+                    module.random.seed(seed)
                 max_value = kwargs.get('max_value', 100)
-                r = numpy.random.randint(max_value,size=self.shape, dtype=numpy.int32)
-                out.fill(numpy.asarray(r, dtype=self.dtype))
+                r = module.random.randint(max_value,size=self.shape, dtype=numpy.int32)
+                out.fill(module.asarray(r, dtype=self.dtype))
             elif value is None:
                 pass
             else:
@@ -1858,19 +1862,29 @@ class DataContainer(object):
         '''Returns the number of elements of the DataContainer'''
         return self.array.size
 
+    @property
+    def array_module(self):
+
+        if isinstance(self.array, numpy.ndarray):
+            return numpy
+        else:
+            try:
+                import cupy
+            except:
+                pass    
+            return cupy            
+
     __container_priority__ = 1
     def __init__ (self, array, deep_copy=True, dimension_labels=None, 
                   **kwargs):
         '''Holds the data'''
         
-        if type(array) == numpy.ndarray:
-            if deep_copy:
-                self.array = array.copy()
-            else:
-                self.array = array    
+        # array is an array like object, e.g., numpy, cupy
+        if deep_copy:
+            self.array = array.copy()
         else:
-            raise TypeError('Array must be NumpyArray, passed {0}'\
-                            .format(type(array)))
+            self.array = array    
+  
 
         #Don't set for derived classes
         if type(self) is DataContainer:
@@ -1882,8 +1896,8 @@ class DataContainer(object):
             try:
                 self.geometry.dtype = self.dtype            
             except:
-                pass    
-        
+                pass           
+
     def get_dimension_size(self, dimension_label):
 
         if dimension_label in self.dimension_labels:
@@ -2000,15 +2014,23 @@ class DataContainer(object):
         dc.fill(some_data, vertical=1, horizontal_x=32)
         will copy the data in some_data into the data container.
         '''
+
         if id(array) == id(self.array):
             return
         if dimension == {}:
+
             if isinstance(array, numpy.ndarray):
                 if array.shape != self.shape:
                     raise ValueError('Cannot fill with the provided array.' + \
                                      'Expecting {0} got {1}'.format(
-                                     self.shape,array.shape))
+                                     self.shape,array.shape))                                     
                 numpy.copyto(self.array, array)
+            elif hasattr(array, 'device') and hasattr(self.array, 'device'):
+                if array.shape != self.shape:
+                    raise ValueError('Cannot fill with the provided array.' + \
+                                     'Expecting {0} got {1}'.format(
+                                     self.shape,array.shape))                
+                self.array_module.copyto(self.array, array)    
             elif isinstance(array, Number):
                 self.array.fill(array) 
             elif issubclass(array.__class__ , DataContainer):
@@ -2541,8 +2563,16 @@ class ImageData(DataContainer):
         if labels is not None and labels != geometry.dimension_labels:
                 raise ValueError("Deprecated: 'dimension_labels' cannot be set with 'allocate()'. Use 'geometry.set_labels()' to modify the geometry before using allocate.")
 
-        if array is None:                                   
-            array = numpy.empty(geometry.shape, dtype=dtype)
+        if array is None:  
+            if geometry.device=='cpu':                                         
+                array = numpy.empty(geometry.shape, dtype=dtype)
+            else:
+                try:
+                    import cupy
+                    array = cupy.empty(geometry.shape, dtype=dtype)
+                except:
+                    pass    
+
         elif issubclass(type(array) , DataContainer):
             array = array.as_array()
         elif issubclass(type(array) , numpy.ndarray):
