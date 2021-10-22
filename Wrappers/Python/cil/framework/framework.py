@@ -318,11 +318,14 @@ class ImageGeometry(object):
                 seed = kwargs.get('seed', None)
                 if seed is not None:
                     module.random.seed(seed)
-                if dtype in [ module.complex , module.complex64 , module.complex128 ] :
+                if dtype in [ numpy.complex , numpy.complex64 , numpy.complex128 ] :
                     r = module.random.random_sample(self.shape) + 1j * module.random.random_sample(self.shape)
                     out.fill(r)
                 else: 
-                    out.fill(module.random.random_sample(self.shape))
+                    if out.geometry.device=='cpu':
+                        out.fill(module.random.random_sample(self.shape))
+                    else:
+                        out.fill(module.random.random_sample(self.shape, dtype=out.dtype))    
             elif value == ImageGeometry.RANDOM_INT:
                 seed = kwargs.get('seed', None)
                 if seed is not None:
