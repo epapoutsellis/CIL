@@ -2190,7 +2190,8 @@ class DataContainer(object):
     
     ## binary operations
             
-    def pixel_wise_binary(self, pwop, x2, *args,  **kwargs):    
+    def pixel_wise_binary(self, pwop, x2, *args,  **kwargs):  
+        import cupy  
         out = kwargs.get('out', None)
         
         if out is None:
@@ -2201,7 +2202,7 @@ class DataContainer(object):
                 out = pwop(self.as_array() , x2 , *args, **kwargs )
             elif issubclass(x2.__class__ , DataContainer):
                 out = pwop(self.as_array() , x2.as_array() , *args, **kwargs )
-            elif isinstance(x2, numpy.ndarray):
+            elif isinstance(x2, (cupy.ndarray, numpy.ndarray)):
                 out = pwop(self.as_array() , x2 , *args, **kwargs )
             else:
                 raise TypeError('Expected x2 type as number or DataContainer, got {}'.format(type(x2)))
@@ -2230,13 +2231,14 @@ class DataContainer(object):
              isinstance(x2, (int,float,complex, numpy.int, numpy.int8, \
                              numpy.int16, numpy.int32, numpy.int64,\
                              numpy.float, numpy.float16, numpy.float32,\
-                             numpy.float64, numpy.complex)):
+                             numpy.float64, numpy.complex, cupy.ndarray)):
             if self.check_dimensions(out):
                 kwargs['out']=out.as_array()
                 pwop(self.as_array(), x2, *args, **kwargs )
                 return out
             else:
                 raise ValueError(message(type(self),"Wrong size for data memory: ", out.shape,self.shape))
+        # wrong import cupy not the right way to get cupy module.        
         elif issubclass(type(out), numpy.ndarray):
             if self.array.shape == out.shape and self.array.dtype == out.dtype:
                 kwargs['out'] = out
@@ -2459,7 +2461,11 @@ class DataContainer(object):
 
         if self.shape == other.shape:
             if method == 'numpy':
-                return numpy.dot(self.as_array().ravel(), other.as_array().ravel().conjugate())
+                try:
+                    a = numpy.dot(self.as_array().ravel(), other.as_array().ravel().conj())
+                except:
+                    a = numpy.dot(self.as_array().ravel(), other.as_array().ravel().conjugate())    
+                return a
             elif method == 'reduce':
                 # see https://github.com/vais-ral/CCPi-Framework/pull/273
                 # notice that Python seems to be smart enough to use
@@ -2566,6 +2572,11 @@ class ImageData(DataContainer):
         if labels is not None and labels != geometry.dimension_labels:
                 raise ValueError("Deprecated: 'dimension_labels' cannot be set with 'allocate()'. Use 'geometry.set_labels()' to modify the geometry before using allocate.")
 
+        # this is not correct, see NEP 35, implemented for numpy 1.20
+        # https://numpy.org/doc/stable/reference/generated/numpy.array.html?highlight=numpy%20array#numpy.array
+        # https://numpy.org/neps/nep-0035-array-creation-dispatch-with-array-function.html 
+        import cupy
+
         if array is None:  
             if geometry.device=='cpu':                                         
                 array = numpy.empty(geometry.shape, dtype=dtype)
@@ -2578,7 +2589,7 @@ class ImageData(DataContainer):
 
         elif issubclass(type(array) , DataContainer):
             array = array.as_array()
-        elif issubclass(type(array) , numpy.ndarray):
+        elif issubclass(type(array) , (numpy.ndarray, cupy.ndarray)):
             pass
         else:
             raise TypeError('array must be a CIL type DataContainer or numpy.ndarray got {}'.format(type(array)))
@@ -3139,4 +3150,50 @@ class DataOrder():
             raise ValueError("Expected dimension_label order {0}, got {1}.\nTry using `data.reorder('{2}')` to permute for {2}"
                  .format(order_requested, list(geometry.dimension_labels), engine))
 
+
+if __name__ == "__main__":
+
+    from cil.framework import ImageGeometry
+    from cil.optimisation.operators import GradientOperator
+    import numpy
+    import cupy
+
+    ig = ImageGeometry(3,4)
+    x_cpu = ig.allocate('random')
+    y_cpu = ig.allocate('random')
+    print(type(x_cpu), type(y_cpu))       
+
+    ig_gpu = ImageGeometry(3,4, device='gpu')
+    x = ig_gpu.allocate('random')
+    y = ig_gpu.allocate('random')
+    print(type(x), type(y))
+    res = ig_gpu.allocate()
+    xnorm = x.norm()
+    x.multiply(1.0/y, out=res)
+    # x.multiply(xnorm, out=y)
+
+    # G_gpu = GradientOperator(ig_gpu, backend = 'numpy')
+    # res1 = G_gpu.direct(x)
+    # res2 = G_gpu.adjoint(res1)
+    # zz = G_gpu.norm()
+
+    # # print(type(x))
+    # # res = x + y
+
+    # op = numpy.divide
+    # print(op)
+    # res = op(x, y)
+    # print(res.array, type(res.array))
+    # import numpy as np
+    # import cupy
+
+    # def my_pad(arr, padding):
+    #     padding = np.array(padding, like=arr)
+    #     return np.concatenate((padding, arr, padding))
+
+    # my_pad(np.arange(5), [-1, -1])    # Returns np.ndarray
+    # my_pad(cupy.arange(5), [-1, -1])  # Returns cupy.core.core.ndarray
+    
+
+    
 
