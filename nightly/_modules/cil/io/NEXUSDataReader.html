@@ -5,28 +5,26 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>cil.io.NEXUSDataReader &#8212; CIL v21.2.0-74-gcf15c7a2 documentation</title>
+    <title>cil.io.NEXUSDataReader &#8212; CIL 21.2.0 documentation</title>
     
-    <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/styles/pydata-sphinx-theme.css" type="text/css" />
     
-    <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
@@ -40,7 +38,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -68,6 +66,12 @@
       <div class="navbar-center-item">
         <ul id="navbar-main-elements" class="navbar-nav">
     <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../introduction.html">
+  Introduction
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../../framework.html">
   Framework
  </a>
@@ -111,7 +115,7 @@
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../../developer_guide.html">
-  Developer’s guide
+  Developers’ Guide
  </a>
 </li>
 
@@ -144,6 +148,7 @@
 <h3><a href="../../../index.html">Table of Contents</a></h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../framework.html">Framework</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../io.html">Read/ write AcquisitionData and ImageData</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../optimisation.html">Optimisation framework</a></li>
@@ -152,7 +157,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../recon.html">Recon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plugins.html">CIL Plugins</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../developer_guide.html">Developer’s guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_guide.html">Developers’ Guide</a></li>
 </ul>
 
 <div id="searchbox" style="display: none" role="search">
@@ -188,21 +193,25 @@
                 
   <h1>Source code for cil.io.NEXUSDataReader</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="c1">#   This work is part of the Core Imaging Library (CIL) developed by CCPi </span>
-<span class="c1">#   (Collaborative Computational Project in Tomographic Imaging), with </span>
-<span class="c1">#   substantial contributions by UKRI-STFC and University of Manchester.</span>
+<span class="c1">#  Copyright 2019 United Kingdom Research and Innovation</span>
+<span class="c1">#  Copyright 2019 The University of Manchester</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1">#</span>
+<span class="c1"># Authors:</span>
+<span class="c1"># CIL Developers, listed at: https://github.com/TomographicImaging/CIL/blob/master/NOTICE.txt</span>
+<span class="c1"># Kyle Pidgeon (UKRI-STFC)</span>
 
-<span class="c1">#   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
-<span class="c1">#   you may not use this file except in compliance with the License.</span>
-<span class="c1">#   You may obtain a copy of the License at</span>
-
-<span class="c1">#   http://www.apache.org/licenses/LICENSE-2.0</span>
-
-<span class="c1">#   Unless required by applicable law or agreed to in writing, software</span>
-<span class="c1">#   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
-<span class="c1">#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
-<span class="c1">#   See the License for the specific language governing permissions and</span>
-<span class="c1">#   limitations under the License.</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">cil.framework</span> <span class="kn">import</span> <span class="n">AcquisitionData</span><span class="p">,</span> <span class="n">AcquisitionGeometry</span><span class="p">,</span> <span class="n">ImageData</span><span class="p">,</span> <span class="n">ImageGeometry</span>
@@ -215,26 +224,34 @@
 
 
 <div class="viewcode-block" id="NEXUSDataReader"><a class="viewcode-back" href="../../../io.html#cil.io.NEXUSDataReader">[docs]</a><span class="k">class</span> <span class="nc">NEXUSDataReader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    
-<div class="viewcode-block" id="NEXUSDataReader.__init__"><a class="viewcode-back" href="../../../io.html#cil.io.NEXUSDataReader.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Constructor</span>
-<span class="sd">        </span>
-<span class="sd">        Input:</span>
-<span class="sd">            </span>
-<span class="sd">            file_name      full path to NEXUS file</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;file_name&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a reader for NeXus files.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file_name: str</span>
+<span class="sd">        the full path to the NeXus file to read.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span> <span class="o">=</span> <span class="n">file_name</span>
         
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">set_up</span><span class="p">(</span><span class="n">file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_up</span><span class="p">(</span><span class="n">file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="p">)</span>
             
-    <span class="k">def</span> <span class="nf">set_up</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+<div class="viewcode-block" id="NEXUSDataReader.set_up"><a class="viewcode-back" href="../../../io.html#cil.io.NEXUSDataReader.set_up">[docs]</a>    <span class="k">def</span> <span class="nf">set_up</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
                <span class="n">file_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialise reader.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file_name : str</span>
+<span class="sd">            Full path to NeXus file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
 
         <span class="c1"># check that h5py library is installed</span>
@@ -248,7 +265,7 @@
         <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="p">)):</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;File</span><span class="se">\n</span><span class="s1"> </span><span class="si">{}</span><span class="se">\n</span><span class="s1"> does not exist.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="p">))</span>  
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="o">=</span> <span class="kc">None</span></div>
     
     <span class="k">def</span> <span class="nf">read_dimension_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
         <span class="n">dimension_labels</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span>
@@ -265,11 +282,16 @@
         <span class="k">return</span> <span class="n">dimension_labels</span>
 
 <div class="viewcode-block" id="NEXUSDataReader.get_geometry"><a class="viewcode-back" href="../../../io.html#cil.io.NEXUSDataReader.get_geometry">[docs]</a>    <span class="k">def</span> <span class="nf">get_geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Parse NEXUS file and returns either ImageData or Acquisition Data </span>
-<span class="sd">        depending on file content</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse NEXUS file and return acquisition or reconstructed volume</span>
+<span class="sd">        parameters, depending on file type.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        AcquisitionGeometry or ImageGeometry</span>
+<span class="sd">            Acquisition or reconstructed volume parameters. Exact type</span>
+<span class="sd">            depends on file content.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dfile</span><span class="p">:</span>
             
@@ -401,7 +423,15 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span></div>
     
 <div class="viewcode-block" id="NEXUSDataReader.get_data_scale"><a class="viewcode-back" href="../../../io.html#cil.io.NEXUSDataReader.get_data_scale">[docs]</a>    <span class="k">def</span> <span class="nf">get_data_scale</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Parse NEXUS file and returns the scale factor applied to compress the dataset&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse NEXUS file and return the scale factor applied to compress</span>
+<span class="sd">        the dataset.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        scale : float</span>
+<span class="sd">            The scale factor applied to compress the dataset</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dfile</span><span class="p">:</span>
             <span class="n">ds_data</span> <span class="o">=</span> <span class="n">dfile</span><span class="p">[</span><span class="s1">&#39;entry1/tomo_entry/data/data&#39;</span><span class="p">]</span> 
@@ -413,7 +443,16 @@
         <span class="k">return</span> <span class="n">scale</span></div>
 
 <div class="viewcode-block" id="NEXUSDataReader.get_data_offset"><a class="viewcode-back" href="../../../io.html#cil.io.NEXUSDataReader.get_data_offset">[docs]</a>    <span class="k">def</span> <span class="nf">get_data_offset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Parse NEXUS file and returns the offset factor applied to compress the dataset&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse NEXUS file and return the offset factor applied to compress</span>
+<span class="sd">        the dataset.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        offset : float</span>
+<span class="sd">            The offset factor applied to compress the dataset</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
         <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dfile</span><span class="p">:</span>
             <span class="n">ds_data</span> <span class="o">=</span> <span class="n">dfile</span><span class="p">[</span><span class="s1">&#39;entry1/tomo_entry/data/data&#39;</span><span class="p">]</span> 
             <span class="k">try</span><span class="p">:</span>
@@ -424,15 +463,25 @@
         <span class="k">return</span> <span class="n">offset</span></div>
 
     <span class="k">def</span> <span class="nf">__read_as</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Parse NEXUS file and returns either ImageData or Acquisition Data </span>
-<span class="sd">        depending on file content</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse NEXUS file and return raw file content.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dtype : data-type</span>
+<span class="sd">            The data type used for storing the parsed data.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        output : ImageData or AcquisitionData</span>
+<span class="sd">            The parsed raw data. Exact type depends on file content.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_geometry</span><span class="p">()</span>
 
         <span class="c1">#allocate data container as requested type</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span><span class="o">.</span><span class="n">allocate</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geometry</span><span class="o">.</span><span class="n">allocate</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dfile</span><span class="p">:</span>
 
@@ -442,9 +491,15 @@
         <span class="k">return</span> <span class="n">output</span>
         
 <div class="viewcode-block" id="NEXUSDataReader.read_as_original"><a class="viewcode-back" href="../../../io.html#cil.io.NEXUSDataReader.read_as_original">[docs]</a>    <span class="k">def</span> <span class="nf">read_as_original</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Returns either an ImageData or AcquisitionData containing the compressed data</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the compressed data from the file.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        output : ImageData or AcquisitionData</span>
+<span class="sd">            The raw, compressed data. Exact type depends on file content.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
         <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dfile</span><span class="p">:</span>
             <span class="n">ds_data</span> <span class="o">=</span> <span class="n">dfile</span><span class="p">[</span><span class="s1">&#39;entry1/tomo_entry/data/data&#39;</span><span class="p">]</span>
             <span class="n">dtype</span> <span class="o">=</span> <span class="n">ds_data</span><span class="o">.</span><span class="n">dtype</span>
@@ -453,9 +508,15 @@
 
 
 <div class="viewcode-block" id="NEXUSDataReader.read"><a class="viewcode-back" href="../../../io.html#cil.io.NEXUSDataReader.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Returns either an ImageData or Acquisition Data containing the uncompressed data as numpy.float32</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the uncompressed data as numpy.float32.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        output : ImageData or AcquisitionData</span>
+<span class="sd">            The uncompressed data. Exact type depends on file content.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
         <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_as</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
         <span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_data_scale</span><span class="p">()</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_data_offset</span><span class="p">()</span>
@@ -469,8 +530,16 @@
     
           
 <div class="viewcode-block" id="NEXUSDataReader.load_data"><a class="viewcode-back" href="../../../io.html#cil.io.NEXUSDataReader.load_data">[docs]</a>    <span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;alias of read&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Alias of `read`.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        read</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">()</span></div>
+
     <span class="k">def</span> <span class="nf">is_old_file_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1">#return ds_data.attrs.__contains__(&#39;geom_type&#39;)</span>
         <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dfile</span><span class="p">:</span>
@@ -497,8 +566,9 @@
       </div>
     </div>
   
-    <script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">

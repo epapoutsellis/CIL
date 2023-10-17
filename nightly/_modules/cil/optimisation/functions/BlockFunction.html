@@ -5,28 +5,26 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>cil.optimisation.functions.BlockFunction &#8212; CIL v21.2.0-74-gcf15c7a2 documentation</title>
+    <title>cil.optimisation.functions.BlockFunction &#8212; CIL 21.2.0 documentation</title>
     
-    <link href="../../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/styles/pydata-sphinx-theme.css" type="text/css" />
     
-    <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
     <script src="../../../../_static/jquery.js"></script>
     <script src="../../../../_static/underscore.js"></script>
@@ -40,7 +38,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -68,6 +66,12 @@
       <div class="navbar-center-item">
         <ul id="navbar-main-elements" class="navbar-nav">
     <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../introduction.html">
+  Introduction
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../../../framework.html">
   Framework
  </a>
@@ -111,7 +115,7 @@
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../../../developer_guide.html">
-  Developer’s guide
+  Developers’ Guide
  </a>
 </li>
 
@@ -144,6 +148,7 @@
 <h3><a href="../../../../index.html">Table of Contents</a></h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../framework.html">Framework</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../io.html">Read/ write AcquisitionData and ImageData</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../optimisation.html">Optimisation framework</a></li>
@@ -152,7 +157,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../recon.html">Recon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../plugins.html">CIL Plugins</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../developer_guide.html">Developer’s guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_guide.html">Developers’ Guide</a></li>
 </ul>
 
 <div id="searchbox" style="display: none" role="search">
@@ -188,29 +193,31 @@
                 
   <h1>Source code for cil.optimisation.functions.BlockFunction</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="c1">#   This work is part of the Core Imaging Library (CIL) developed by CCPi </span>
-<span class="c1">#   (Collaborative Computational Project in Tomographic Imaging), with </span>
-<span class="c1">#   substantial contributions by UKRI-STFC and University of Manchester.</span>
-
-<span class="c1">#   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
-<span class="c1">#   you may not use this file except in compliance with the License.</span>
-<span class="c1">#   You may obtain a copy of the License at</span>
-
-<span class="c1">#   http://www.apache.org/licenses/LICENSE-2.0</span>
-
-<span class="c1">#   Unless required by applicable law or agreed to in writing, software</span>
-<span class="c1">#   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
-<span class="c1">#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
-<span class="c1">#   See the License for the specific language governing permissions and</span>
-<span class="c1">#   limitations under the License.</span>
+<span class="c1">#  Copyright 2019 United Kingdom Research and Innovation</span>
+<span class="c1">#  Copyright 2019 The University of Manchester</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1">#</span>
+<span class="c1"># Authors:</span>
+<span class="c1"># CIL Developers, listed at: https://github.com/TomographicImaging/CIL/blob/master/NOTICE.txt</span>
 
 <span class="kn">from</span> <span class="nn">cil.optimisation.functions</span> <span class="kn">import</span> <span class="n">Function</span>
 <span class="kn">from</span> <span class="nn">cil.framework</span> <span class="kn">import</span> <span class="n">BlockDataContainer</span>
 <span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
 
 <div class="viewcode-block" id="BlockFunction"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.BlockFunction">[docs]</a><span class="k">class</span> <span class="nc">BlockFunction</span><span class="p">(</span><span class="n">Function</span><span class="p">):</span>
-    
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot; BlockFunction represents a *separable sum* function :math:`F` defined as</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; BlockFunction represents a *separable sum* function :math:`F` defined as</span>
 <span class="sd">    </span>
 <span class="sd">    .. math:: F:X_{1}\times X_{2}\cdots\times X_{m} \rightarrow (-\infty, \infty]</span>
 <span class="sd">    </span>
@@ -248,8 +255,8 @@
         <span class="k">return</span> <span class="n">tmp_L</span>     
                                 
 <div class="viewcode-block" id="BlockFunction.__call__"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.BlockFunction.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Returns the value of the BlockFunction :math:`F`</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Returns the value of the BlockFunction :math:`F`</span>
 <span class="sd">        </span>
 <span class="sd">        .. math:: F(x) = \overset{m}{\underset{i=1}{\sum}}f_{i}(x_{i}), \mbox{ where } x = (x_{1}, x_{2}, \cdots, x_{m}), \quad i = 1,2,\dots,m</span>
 <span class="sd">                </span>
@@ -269,8 +276,8 @@
         <span class="k">return</span> <span class="n">t</span></div>
     
 <div class="viewcode-block" id="BlockFunction.convex_conjugate"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.BlockFunction.convex_conjugate">[docs]</a>    <span class="k">def</span> <span class="nf">convex_conjugate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the value of the convex conjugate of the BlockFunction at :math:`x^{*}`.       </span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the value of the convex conjugate of the BlockFunction at :math:`x^{*}`.       </span>
 <span class="sd">        </span>
 <span class="sd">            .. math:: F^{*}(x^{*}) = \overset{m}{\underset{i=1}{\sum}}f_{i}^{*}(x^{*}_{i})</span>
 <span class="sd">            </span>
@@ -288,8 +295,8 @@
         <span class="k">return</span> <span class="n">t</span>  </div>
     
 <div class="viewcode-block" id="BlockFunction.proximal"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.BlockFunction.proximal">[docs]</a>    <span class="k">def</span> <span class="nf">proximal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Proximal operator of the BlockFunction at x:</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Proximal operator of the BlockFunction at x:</span>
 <span class="sd">        </span>
 <span class="sd">            .. math:: \mathrm{prox}_{\tau F}(x) =  (\mathrm{prox}_{\tau f_{i}}(x_{i}))_{i=1}^{m}</span>
 <span class="sd">            </span>
@@ -324,8 +331,8 @@
             
     
 <div class="viewcode-block" id="BlockFunction.gradient"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.BlockFunction.gradient">[docs]</a>    <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the value of the gradient of the BlockFunction function at x.</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the value of the gradient of the BlockFunction function at x.</span>
 <span class="sd">        </span>
 <span class="sd">        .. math:: F&#39;(x) = [f_{1}&#39;(x_{1}), ... , f_{m}&#39;(x_{m})]        </span>
 <span class="sd">        </span>
@@ -345,8 +352,8 @@
         <span class="k">return</span>  <span class="n">BlockDataContainer</span><span class="p">(</span><span class="o">*</span><span class="n">out</span><span class="p">)</span>     </div>
 
 <div class="viewcode-block" id="BlockFunction.proximal_conjugate"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.BlockFunction.proximal_conjugate">[docs]</a>    <span class="k">def</span> <span class="nf">proximal_conjugate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Proximal operator of the convex conjugate of BlockFunction at x:</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Proximal operator of the convex conjugate of BlockFunction at x:</span>
 <span class="sd">        </span>
 <span class="sd">            .. math:: \mathrm{prox}_{\tau F^{*}}(x) = (\mathrm{prox}_{\tau f^{*}_{i}}(x^{*}_{i}))_{i=1}^{m}</span>
 <span class="sd">            </span>
@@ -382,7 +389,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">functions</span><span class="p">[</span><span class="n">row</span><span class="p">]</span>
         
 <div class="viewcode-block" id="BlockFunction.__rmul__"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.BlockFunction.__rmul__">[docs]</a>    <span class="k">def</span> <span class="fm">__rmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Define multiplication with a scalar</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Define multiplication with a scalar</span>
 <span class="sd">        </span>
 <span class="sd">        :param other: number</span>
 <span class="sd">        Returns a new `BlockFunction`_ containing the product of the scalar with all the functions in the block</span>
@@ -409,8 +416,9 @@
       </div>
     </div>
   
-    <script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">

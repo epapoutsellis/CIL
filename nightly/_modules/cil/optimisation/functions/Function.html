@@ -5,28 +5,26 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>cil.optimisation.functions.Function &#8212; CIL v21.2.0-74-gcf15c7a2 documentation</title>
+    <title>cil.optimisation.functions.Function &#8212; CIL 21.2.0 documentation</title>
     
-    <link href="../../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/styles/pydata-sphinx-theme.css" type="text/css" />
     
-    <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
     <script src="../../../../_static/jquery.js"></script>
     <script src="../../../../_static/underscore.js"></script>
@@ -40,7 +38,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -68,6 +66,12 @@
       <div class="navbar-center-item">
         <ul id="navbar-main-elements" class="navbar-nav">
     <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../introduction.html">
+  Introduction
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../../../framework.html">
   Framework
  </a>
@@ -111,7 +115,7 @@
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../../../developer_guide.html">
-  Developer’s guide
+  Developers’ Guide
  </a>
 </li>
 
@@ -144,6 +148,7 @@
 <h3><a href="../../../../index.html">Table of Contents</a></h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../framework.html">Framework</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../io.html">Read/ write AcquisitionData and ImageData</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../optimisation.html">Optimisation framework</a></li>
@@ -152,7 +157,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../recon.html">Recon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../plugins.html">CIL Plugins</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../developer_guide.html">Developer’s guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_guide.html">Developers’ Guide</a></li>
 </ul>
 
 <div id="searchbox" style="display: none" role="search">
@@ -188,30 +193,33 @@
                 
   <h1>Source code for cil.optimisation.functions.Function</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="c1">#   This work is part of the Core Imaging Library (CIL) developed by CCPi </span>
-<span class="c1">#   (Collaborative Computational Project in Tomographic Imaging), with </span>
-<span class="c1">#   substantial contributions by UKRI-STFC and University of Manchester.</span>
-
-<span class="c1">#   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
-<span class="c1">#   you may not use this file except in compliance with the License.</span>
-<span class="c1">#   You may obtain a copy of the License at</span>
-
-<span class="c1">#   http://www.apache.org/licenses/LICENSE-2.0</span>
-
-<span class="c1">#   Unless required by applicable law or agreed to in writing, software</span>
-<span class="c1">#   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
-<span class="c1">#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
-<span class="c1">#   See the License for the specific language governing permissions and</span>
-<span class="c1">#   limitations under the License.</span>
+<span class="c1">#  Copyright 2019 United Kingdom Research and Innovation</span>
+<span class="c1">#  Copyright 2019 The University of Manchester</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1">#</span>
+<span class="c1"># Authors:</span>
+<span class="c1"># CIL Developers, listed at: https://github.com/TomographicImaging/CIL/blob/master/NOTICE.txt</span>
 
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
 
 <div class="viewcode-block" id="Function"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.Function">[docs]</a><span class="k">class</span> <span class="nc">Function</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    
-    <span class="sd">&quot;&quot;&quot; Abstract class representing a function </span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Abstract class representing a function </span>
 <span class="sd">    </span>
 <span class="sd">        :param L: Lipschitz constant of the gradient of the function F(x), when it is differentiable.</span>
 <span class="sd">        :type L: number, positive, default None</span>
@@ -227,16 +235,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_L</span> <span class="o">=</span> <span class="n">L</span></div>
         
 <div class="viewcode-block" id="Function.__call__"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.Function.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="p">):</span>
-        
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the value of the function F at x: :math:`F(x)`</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the value of the function F at x: :math:`F(x)`</span>
 <span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>        
         
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="Function.gradient"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.Function.gradient">[docs]</a>    <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the value of the gradient of function F at x, if it is differentiable</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the value of the gradient of function F at x, if it is differentiable</span>
 <span class="sd">        </span>
 <span class="sd">        .. math:: F&#39;(x)</span>
 <span class="sd">        </span>
@@ -244,14 +252,14 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="Function.proximal"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.Function.proximal">[docs]</a>    <span class="k">def</span> <span class="nf">proximal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the proximal operator of function :math:`\tau F` at x        </span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the proximal operator of function :math:`\tau F` at x        </span>
 <span class="sd">        .. math:: \mathrm{prox}_{\tau F}(x) = \underset{z}{\mathrm{argmin}} \frac{1}{2}\|z - x\|^{2} + \tau F(z)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="Function.convex_conjugate"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.Function.convex_conjugate">[docs]</a>    <span class="k">def</span> <span class="nf">convex_conjugate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Returns the convex conjugate of function :math:`F` at :math:`x^{*}`,</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Returns the convex conjugate of function :math:`F` at :math:`x^{*}`,</span>
 <span class="sd">        </span>
 <span class="sd">        .. math:: F^{*}(x^{*}) = \underset{x^{*}}{\sup} &lt;x^{*}, x&gt; - F(x)</span>
 <span class="sd">                </span>
@@ -259,8 +267,8 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="Function.proximal_conjugate"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.Function.proximal_conjugate">[docs]</a>    <span class="k">def</span> <span class="nf">proximal_conjugate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the proximal operator of the convex conjugate of function :math:`\tau F` at :math:`x^{*}`</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the proximal operator of the convex conjugate of function :math:`\tau F` at :math:`x^{*}`</span>
 <span class="sd">        </span>
 <span class="sd">        .. math:: \mathrm{prox}_{\tau F^{*}}(x^{*}) = \underset{z^{*}}{\mathrm{argmin}} \frac{1}{2}\|z^{*} - x^{*}\|^{2} + \tau F^{*}(z^{*})</span>
 <span class="sd">        </span>
@@ -302,8 +310,8 @@
         <span class="c1"># Multiply with Scalar</span>
     
 <div class="viewcode-block" id="Function.__add__"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.Function.__add__">[docs]</a>    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        
-        <span class="sd">&quot;&quot;&quot; Returns the sum of the functions.</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Returns the sum of the functions.</span>
 <span class="sd">        </span>
 <span class="sd">            Cases: a) the sum of two functions :math:`(F_{1}+F_{2})(x) = F_{1}(x) + F_{2}(x)`</span>
 <span class="sd">                   b) the sum of a function with a scalar :math:`(F_{1}+scalar)(x) = F_{1}(x) + scalar`</span>
@@ -318,16 +326,16 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Not implemented&#39;</span><span class="p">)</span>   </div>
             
 <div class="viewcode-block" id="Function.__radd__"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.Function.__radd__">[docs]</a>    <span class="k">def</span> <span class="fm">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        
-        <span class="sd">&quot;&quot;&quot; Making addition commutative. &quot;&quot;&quot;</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Making addition commutative. &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span> <span class="o">+</span> <span class="n">other</span> </div>
                           
 <div class="viewcode-block" id="Function.__sub__"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.Function.__sub__">[docs]</a>    <span class="k">def</span> <span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns the subtraction of the functions.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Returns the subtraction of the functions.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">other</span>    </div>
 
 <div class="viewcode-block" id="Function.__rmul__"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.Function.__rmul__">[docs]</a>    <span class="k">def</span> <span class="fm">__rmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Returns a function multiplied by a scalar.&quot;&quot;&quot;</span>               
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a function multiplied by a scalar.&quot;&quot;&quot;</span>               
         <span class="k">return</span> <span class="n">ScaledFunction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar</span><span class="p">)</span></div>
     
     <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar</span><span class="p">):</span>
@@ -335,7 +343,7 @@
     
    
 <div class="viewcode-block" id="Function.centered_at"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.Function.centered_at">[docs]</a>    <span class="k">def</span> <span class="nf">centered_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns a translated function, namely if we have a function :math:`F(x)` the center is at the origin.         </span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Returns a translated function, namely if we have a function :math:`F(x)` the center is at the origin.         </span>
 <span class="sd">            TranslateFunction is :math:`F(x - b)` and the center is at point b.&quot;&quot;&quot;</span>
             
         <span class="k">if</span> <span class="n">center</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -345,74 +353,173 @@
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">L</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Lipschitz of the gradient of function f.</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Lipschitz of the gradient of function f.</span>
 <span class="sd">        </span>
 <span class="sd">        L is positive real number, such that |f&#39;(x) - f&#39;(y)| &lt;= L ||x-y||, assuming f: IG --&gt; R&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_L</span>
         <span class="c1"># return self._L</span>
     <span class="nd">@L</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">L</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Setter for Lipschitz constant&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Setter for Lipschitz constant&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">Number</span><span class="p">,))</span> <span class="ow">and</span> <span class="n">value</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_L</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;The Lipschitz constant is a real positive number&#39;</span><span class="p">)</span></div>
     
 <div class="viewcode-block" id="SumFunction"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.SumFunction">[docs]</a><span class="k">class</span> <span class="nc">SumFunction</span><span class="p">(</span><span class="n">Function</span><span class="p">):</span>
-    
-    <span class="sd">&quot;&quot;&quot; SumFunction represents the sum of two functions</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;SumFunction represents the sum of :math:`n\geq2` functions</span>
 <span class="sd">    </span>
-<span class="sd">    .. math:: (F_{1} + F_{2})(x)  = F_{1}(x) + F_{2}(x)</span>
-<span class="sd">    </span>
+<span class="sd">    .. math:: (F_{1} + F_{2} + ... + F_{n})(\cdot)  = F_{1}(\cdot) + F_{2}(\cdot) + ... + F_{n}(\cdot)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    *functions : Functions</span>
+<span class="sd">                 Functions to set up a :class:`.SumFunction`</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">            If the number of function is strictly less than 2.</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. math:: F(x) = \|x\|^{2} + \frac{1}{2}\|x - 1\|^{2}</span>
+
+<span class="sd">    &gt;&gt;&gt; from cil.optimisation.functions import L2NormSquared</span>
+<span class="sd">    &gt;&gt;&gt; from cil.framework import ImageGeometry</span>
+<span class="sd">    &gt;&gt;&gt; f1 = L2NormSquared()</span>
+<span class="sd">    &gt;&gt;&gt; f2 = 0.5 * L2NormSquared(b = ig.allocate(1))</span>
+<span class="sd">    &gt;&gt;&gt; F = SumFunction(f1, f2)</span>
+
+<span class="sd">    .. math:: F(x) = \sum_{i=1}^{50} \|x - i\|^{2}</span>
+
+<span class="sd">    &gt;&gt;&gt; F = SumFunction(*[L2NormSquared(b=i) for i in range(50)])</span>
+
+
 <span class="sd">    &quot;&quot;&quot;</span>
     
-<div class="viewcode-block" id="SumFunction.__init__"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.SumFunction.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function1</span><span class="p">,</span> <span class="n">function2</span> <span class="p">):</span>
+<div class="viewcode-block" id="SumFunction.__init__"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.SumFunction.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">functions</span> <span class="p">):</span>
                 
         <span class="nb">super</span><span class="p">(</span><span class="n">SumFunction</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>        
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">function1</span> <span class="o">=</span> <span class="n">function1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">function2</span> <span class="o">=</span> <span class="n">function2</span></div>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">functions</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;At least 2 functions need to be passed&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">functions</span> <span class="o">=</span> <span class="n">functions</span></div>
+        
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">L</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Lipschitz constant&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">function1</span><span class="o">.</span><span class="n">L</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">function2</span><span class="o">.</span><span class="n">L</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function1</span><span class="o">.</span><span class="n">L</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">function2</span><span class="o">.</span><span class="n">L</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_L</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the Lipschitz constant for the SumFunction</span>
+<span class="sd">        </span>
+<span class="sd">        .. math:: L = \sum_{i} L_{i}</span>
+
+<span class="sd">        where :math:`L_{i}` is the Lipschitz constant of the smooth function :math:`F_{i}`.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">L</span> <span class="o">=</span> <span class="mf">0.</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">functions</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">L</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">L</span> <span class="o">+=</span> <span class="n">f</span><span class="o">.</span><span class="n">L</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">L</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">break</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_L</span> <span class="o">=</span> <span class="n">L</span>
+            
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_L</span>
+
     <span class="nd">@L</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">L</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="c1"># call base class setter</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">SumFunction</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span><span class="o">.</span><span class="n">L</span><span class="o">.</span><span class="n">fset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span> <span class="p">)</span>
 
-<div class="viewcode-block" id="SumFunction.__call__"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.SumFunction.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the value of the sum of functions :math:`F_{1}` and :math:`F_{2}` at x</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">Lmax</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the maximum Lipschitz constant for the SumFunction</span>
 <span class="sd">        </span>
-<span class="sd">        .. math:: (F_{1} + F_{2})(x) = F_{1}(x) + F_{2}(x)</span>
+<span class="sd">        .. math:: L = \max_{i}\{L_{i}\}</span>
+
+<span class="sd">        where :math:`L_{i}` is the Lipschitz constant of the smooth function :math:`F_{i}`.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">l</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">functions</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">L</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">L</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">l</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">break</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_Lmax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Lmax</span>
+
+
+    <span class="nd">@Lmax</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">Lmax</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="c1"># call base class setter</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SumFunction</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span><span class="o">.</span><span class="n">Lmax</span><span class="o">.</span><span class="n">fset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span> <span class="p">)</span>        
+
+<div class="viewcode-block" id="SumFunction.__call__"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.SumFunction.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the value of the sum of functions at :math:`x`.</span>
+<span class="sd">        </span>
+<span class="sd">        .. math:: (F_{1} + F_{2} + ... + F_{n})(x) = F_{1}(x) + F_{2}(x) + ... + F_{n}(x)</span>
 <span class="sd">                </span>
 <span class="sd">        &quot;&quot;&quot;</span>  
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">function1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">function2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
-    
+        <span class="n">ret</span> <span class="o">=</span> <span class="mf">0.</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">functions</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ret</span></div>
+
+
 <div class="viewcode-block" id="SumFunction.gradient"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.SumFunction.gradient">[docs]</a>    <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the value of the sum of the gradient of functions :math:`F_{1}` and :math:`F_{2}` at x, </span>
-<span class="sd">        if both of them are differentiable</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the value of the sum of the gradient of functions at :math:`x`, if all of them are differentiable.</span>
 <span class="sd">        </span>
-<span class="sd">        .. math:: (F&#39;_{1} + F&#39;_{2})(x)  = F&#39;_{1}(x) + F&#39;_{2}(x)</span>
+<span class="sd">        .. math:: (F&#39;_{1} + F&#39;_{2} + ... + F&#39;_{n})(x) = F&#39;_{1}(x) + F&#39;_{2}(x) + ... + F&#39;_{n}(x)</span>
 <span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
-<span class="c1">#        try: </span>
         <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>            
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">function1</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span>  <span class="bp">self</span><span class="o">.</span><span class="n">function2</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">f</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">functions</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">ret</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ret</span> <span class="o">+=</span> <span class="n">f</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">ret</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">f</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">functions</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">out</span> <span class="o">+=</span> <span class="n">f</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">function1</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function2</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">out</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>                </div></div>
-            
+<div class="viewcode-block" id="SumFunction.__add__"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.SumFunction.__add__">[docs]</a>    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Addition for the SumFunction.</span>
+<span class="sd">        </span>
+<span class="sd">        *  :code:`SumFunction` + :code:`SumFunction` is a :code:`SumFunction`.</span>
+<span class="sd">         </span>
+<span class="sd">        *  :code:`SumFunction` + :code:`Function` is a :code:`SumFunction`.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">SumFunction</span><span class="p">):</span>
+            <span class="n">functions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">functions</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">functions</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">SumFunction</span><span class="p">(</span><span class="o">*</span><span class="n">functions</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Function</span><span class="p">):</span>
+            <span class="n">functions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">functions</span><span class="p">)</span>
+            <span class="n">functions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">SumFunction</span><span class="p">(</span><span class="o">*</span><span class="n">functions</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">SumFunction</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__add__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div></div>
+
+
 <div class="viewcode-block" id="ScaledFunction"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.ScaledFunction">[docs]</a><span class="k">class</span> <span class="nc">ScaledFunction</span><span class="p">(</span><span class="n">Function</span><span class="p">):</span>
-    
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot; ScaledFunction represents the scalar multiplication with a Function.</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; ScaledFunction represents the scalar multiplication with a Function.</span>
 <span class="sd">    </span>
 <span class="sd">    Let a function F then and a scalar :math:`\alpha`.</span>
 <span class="sd">    </span>
@@ -456,7 +563,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Expecting scalar type as a number type. Got </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
 <div class="viewcode-block" id="ScaledFunction.__call__"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.ScaledFunction.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the value of the scaled function.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the value of the scaled function.</span>
 <span class="sd">        </span>
 <span class="sd">        .. math:: G(x) = \alpha F(x)</span>
 <span class="sd">        </span>
@@ -464,7 +571,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalar</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ScaledFunction.convex_conjugate"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.ScaledFunction.convex_conjugate">[docs]</a>    <span class="k">def</span> <span class="nf">convex_conjugate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the convex conjugate of the scaled function.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the convex conjugate of the scaled function.</span>
 <span class="sd">        </span>
 <span class="sd">        .. math:: G^{*}(x^{*}) = \alpha  F^{*}(\frac{x^{*}}{\alpha})</span>
 <span class="sd">        </span>
@@ -484,7 +591,7 @@
 
     
 <div class="viewcode-block" id="ScaledFunction.gradient"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.ScaledFunction.gradient">[docs]</a>    <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the gradient of the scaled function.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the gradient of the scaled function.</span>
 <span class="sd">        </span>
 <span class="sd">        .. math:: G&#39;(x) = \alpha  F&#39;(x)</span>
 <span class="sd">        </span>
@@ -496,8 +603,8 @@
             <span class="n">out</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalar</span>  </div>
 
 <div class="viewcode-block" id="ScaledFunction.proximal"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.ScaledFunction.proximal">[docs]</a>    <span class="k">def</span> <span class="nf">proximal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the proximal operator of the scaled function.</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the proximal operator of the scaled function.</span>
 <span class="sd">        </span>
 <span class="sd">        .. math:: \mathrm{prox}_{\tau G}(x) = \mathrm{prox}_{(\tau\alpha) F}(x)</span>
 <span class="sd">        </span>
@@ -507,7 +614,7 @@
 
 
 <div class="viewcode-block" id="ScaledFunction.proximal_conjugate"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.ScaledFunction.proximal_conjugate">[docs]</a>    <span class="k">def</span> <span class="nf">proximal_conjugate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;This returns the proximal operator for the function at x, tau</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;This returns the proximal operator for the function at x, tau</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">tmp</span> <span class="o">=</span> <span class="n">x</span>
@@ -533,8 +640,8 @@
             <span class="k">return</span> <span class="n">val</span></div></div>
 
 <div class="viewcode-block" id="SumScalarFunction"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.SumScalarFunction">[docs]</a><span class="k">class</span> <span class="nc">SumScalarFunction</span><span class="p">(</span><span class="n">SumFunction</span><span class="p">):</span>
-          
-    <span class="sd">&quot;&quot;&quot; SumScalarFunction represents the sum a function with a scalar. </span>
+<span class="w">          </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; SumScalarFunction represents the sum a function with a scalar. </span>
 <span class="sd">    </span>
 <span class="sd">        .. math:: (F + scalar)(x)  = F(x) + scalar</span>
 <span class="sd">    </span>
@@ -555,8 +662,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">function</span></div>
         
 <div class="viewcode-block" id="SumScalarFunction.convex_conjugate"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.SumScalarFunction.convex_conjugate">[docs]</a>    <span class="k">def</span> <span class="nf">convex_conjugate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="p">):</span>
-        
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Returns the convex conjugate of a :math:`(F+scalar)`</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; Returns the convex conjugate of a :math:`(F+scalar)`</span>
 <span class="sd">                </span>
 <span class="sd">        .. math:: (F+scalar)^{*}(x^{*}) = F^{*}(x^{*}) - scalar</span>
 <span class="sd">                        </span>
@@ -564,8 +671,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">convex_conjugate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">constant</span></div>
     
 <div class="viewcode-block" id="SumScalarFunction.proximal"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.SumScalarFunction.proximal">[docs]</a>    <span class="k">def</span> <span class="nf">proximal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        
-        <span class="sd">&quot;&quot;&quot; Returns the proximal operator of :math:`F+scalar`</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Returns the proximal operator of :math:`F+scalar`</span>
 
 <span class="sd">        .. math:: \mathrm{prox}_{\tau (F+scalar)}(x) = \mathrm{prox}_{\tau F}</span>
 <span class="sd">                        </span>
@@ -586,9 +693,9 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">SumScalarFunction</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span><span class="o">.</span><span class="n">L</span><span class="o">.</span><span class="n">fset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span> <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ConstantFunction"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.ConstantFunction">[docs]</a><span class="k">class</span> <span class="nc">ConstantFunction</span><span class="p">(</span><span class="n">Function</span><span class="p">):</span>
-    
-            
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot; ConstantFunction: :math:`F(x) = constant, constant\in\mathbb{R}`         </span>
+<span class="w">    </span>
+<span class="w">            </span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; ConstantFunction: :math:`F(x) = constant, constant\in\mathbb{R}`         </span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
@@ -599,21 +706,21 @@
         
               
 <div class="viewcode-block" id="ConstantFunction.__call__"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.ConstantFunction.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="p">):</span>
-        
-        <span class="sd">&quot;&quot;&quot; Returns the value of the function, :math:`F(x) = constant`&quot;&quot;&quot;</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Returns the value of the function, :math:`F(x) = constant`&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">constant</span></div>
         
 <div class="viewcode-block" id="ConstantFunction.gradient"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.ConstantFunction.gradient">[docs]</a>    <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        
-        <span class="sd">&quot;&quot;&quot; Returns the value of the gradient of the function, :math:`F&#39;(x)=0`&quot;&quot;&quot;</span>       
+<span class="w">        </span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Returns the value of the gradient of the function, :math:`F&#39;(x)=0`&quot;&quot;&quot;</span>       
         <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="mf">0.</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">out</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
     
 <div class="viewcode-block" id="ConstantFunction.convex_conjugate"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.ConstantFunction.convex_conjugate">[docs]</a>    <span class="k">def</span> <span class="nf">convex_conjugate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-                        
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; The convex conjugate of constant function :math:`F(x) = c\in\mathbb{R}` is</span>
+<span class="w">                        </span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; The convex conjugate of constant function :math:`F(x) = c\in\mathbb{R}` is</span>
 <span class="sd">        </span>
 <span class="sd">        .. math:: </span>
 <span class="sd">            F(x^{*}) </span>
@@ -635,8 +742,8 @@
         <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div>
                 
 <div class="viewcode-block" id="ConstantFunction.proximal"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.ConstantFunction.proximal">[docs]</a>    <span class="k">def</span> <span class="nf">proximal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        
-        <span class="sd">&quot;&quot;&quot;Returns the proximal operator of the constant function, which is the same element, i.e.,</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the proximal operator of the constant function, which is the same element, i.e.,</span>
 <span class="sd">        </span>
 <span class="sd">        .. math:: \mathrm{prox}_{\tau F}(x) = x </span>
 <span class="sd">        </span>
@@ -658,23 +765,23 @@
     <span class="k">def</span> <span class="nf">L</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="mf">0.</span>
 <div class="viewcode-block" id="ConstantFunction.__rmul__"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.ConstantFunction.__rmul__">[docs]</a>    <span class="k">def</span> <span class="fm">__rmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;defines the right multiplication with a number&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;defines the right multiplication with a number&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span> <span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
             <span class="k">raise</span> <span class="bp">NotImplemented</span>
         <span class="n">constant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constant</span> <span class="o">*</span> <span class="n">other</span>
         <span class="k">return</span> <span class="n">ConstantFunction</span><span class="p">(</span><span class="n">constant</span><span class="p">)</span></div></div>
 
 <div class="viewcode-block" id="ZeroFunction"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.ZeroFunction">[docs]</a><span class="k">class</span> <span class="nc">ZeroFunction</span><span class="p">(</span><span class="n">ConstantFunction</span><span class="p">):</span>
-    
-    <span class="sd">&quot;&quot;&quot; ZeroFunction represents the zero function, :math:`F(x) = 0`        </span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; ZeroFunction represents the zero function, :math:`F(x) = 0`        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
 <div class="viewcode-block" id="ZeroFunction.__init__"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.ZeroFunction.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ZeroFunction</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">constant</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">)</span> </div></div>
         
 <div class="viewcode-block" id="TranslateFunction"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.TranslateFunction">[docs]</a><span class="k">class</span> <span class="nc">TranslateFunction</span><span class="p">(</span><span class="n">Function</span><span class="p">):</span>
-    
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot; TranslateFunction represents the translation of function F with respect to the center b.</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot; TranslateFunction represents the translation of function F with respect to the center b.</span>
 <span class="sd">    </span>
 <span class="sd">    Let a function F and consider :math:`G(x) = F(x - center)`. </span>
 <span class="sd">    </span>
@@ -700,8 +807,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">center</span></div>
         
 <div class="viewcode-block" id="TranslateFunction.__call__"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.TranslateFunction.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the value of the translated function.</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the value of the translated function.</span>
 <span class="sd">        </span>
 <span class="sd">        .. math:: G(x) = F(x - b)</span>
 <span class="sd">        </span>
@@ -721,8 +828,8 @@
 
     
 <div class="viewcode-block" id="TranslateFunction.gradient"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.TranslateFunction.gradient">[docs]</a>    <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the gradient of the translated function.</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the gradient of the translated function.</span>
 <span class="sd">        </span>
 <span class="sd">        .. math:: G&#39;(x) =  F&#39;(x - b)</span>
 <span class="sd">        </span>
@@ -746,8 +853,8 @@
 
     
 <div class="viewcode-block" id="TranslateFunction.proximal"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.TranslateFunction.proximal">[docs]</a>    <span class="k">def</span> <span class="nf">proximal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the proximal operator of the translated function.</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the proximal operator of the translated function.</span>
 <span class="sd">        </span>
 <span class="sd">        .. math:: \mathrm{prox}_{\tau G}(x) = \mathrm{prox}_{\tau F}(x-b) + b</span>
 <span class="sd">        </span>
@@ -772,14 +879,59 @@
             <span class="k">return</span> <span class="n">val</span></div>
 
 <div class="viewcode-block" id="TranslateFunction.convex_conjugate"><a class="viewcode-back" href="../../../../optimisation.html#cil.optimisation.functions.TranslateFunction.convex_conjugate">[docs]</a>    <span class="k">def</span> <span class="nf">convex_conjugate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the convex conjugate of the translated function.</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the convex conjugate of the translated function.</span>
 <span class="sd">        </span>
 <span class="sd">        .. math:: G^{*}(x^{*}) = F^{*}(x^{*}) + &lt;x^{*}, b &gt;</span>
 <span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>        
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">convex_conjugate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="n">F1</span> <span class="o">=</span> <span class="n">Function</span><span class="p">()</span>
+    <span class="n">F2</span> <span class="o">=</span> <span class="n">Function</span><span class="p">()</span>
+
+    <span class="n">res1</span> <span class="o">=</span> <span class="n">F1</span> <span class="o">+</span> <span class="n">F2</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum two function&quot;</span><span class="p">,</span> <span class="n">res1</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span> <span class="c1"># SumFunction</span>
+    
+    <span class="n">res2</span> <span class="o">=</span> <span class="n">F1</span> <span class="o">+</span> <span class="mi">5</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum function and scalar&quot;</span><span class="p">,</span><span class="n">res2</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span> <span class="c1"># SumScalarFunction</span>
+    
+    <span class="n">res3</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">+</span> <span class="n">F1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum scalar and function&quot;</span><span class="p">,</span><span class="n">res3</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span> <span class="c1"># SumScalarFunction</span>
+
+    <span class="n">res4</span> <span class="o">=</span> <span class="n">F1</span> <span class="o">+</span> <span class="n">ConstantFunction</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum function and constant&quot;</span><span class="p">,</span><span class="n">res4</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span> <span class="c1"># SumFunction</span>
+
+    <span class="n">res4</span> <span class="o">=</span> <span class="n">ConstantFunction</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="mi">5</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum constant and function&quot;</span><span class="p">,</span><span class="n">res4</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span> <span class="c1"># SumScalarFunction</span>
+
+    <span class="n">res4</span> <span class="o">=</span> <span class="n">ZeroFunction</span><span class="p">()</span> <span class="o">+</span> <span class="mi">5</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum zero function and function&quot;</span><span class="p">,</span><span class="n">res4</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span> <span class="c1"># SumScalarFunction </span>
+
+    <span class="n">res3</span> <span class="o">=</span> <span class="n">res1</span> <span class="o">+</span> <span class="p">(</span><span class="n">F1</span><span class="o">+</span><span class="n">F2</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">res3</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
+
+    <span class="kn">from</span> <span class="nn">cil.optimisation.functions</span> <span class="kn">import</span> <span class="n">L2NormSquared</span>
+    <span class="kn">from</span> <span class="nn">cil.framework</span> <span class="kn">import</span> <span class="n">ImageGeometry</span>
+    <span class="n">ig</span> <span class="o">=</span> <span class="n">ImageGeometry</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">f1</span> <span class="o">=</span> <span class="n">L2NormSquared</span><span class="p">()</span>
+    <span class="n">f2</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">L2NormSquared</span><span class="p">(</span><span class="n">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">SumFunction</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">ig</span><span class="o">.</span><span class="n">allocate</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">F</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>   
+
+    <span class="n">G</span> <span class="o">=</span> <span class="n">SumFunction</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">f1</span><span class="p">]</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span>
+    <span class="nb">len</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">functions</span><span class="p">)</span>
+
+    <span class="n">F</span> <span class="o">=</span> <span class="n">SumFunction</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">L2NormSquared</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="n">ig</span><span class="o">.</span><span class="n">allocate</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">functions</span><span class="p">))</span>
+
+    <span class="c1"># L = F.L </span>
+    <span class="c1"># print(res, L)</span>
 </pre></div>
 
               </div>
@@ -795,8 +947,9 @@
       </div>
     </div>
   
-    <script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">

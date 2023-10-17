@@ -5,28 +5,26 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>cil.processors.RingRemover &#8212; CIL v21.2.0-74-gcf15c7a2 documentation</title>
+    <title>cil.processors.RingRemover &#8212; CIL 21.2.0 documentation</title>
     
-    <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/styles/pydata-sphinx-theme.css" type="text/css" />
     
-    <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
@@ -40,7 +38,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -68,6 +66,12 @@
       <div class="navbar-center-item">
         <ul id="navbar-main-elements" class="navbar-nav">
     <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../introduction.html">
+  Introduction
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../../framework.html">
   Framework
  </a>
@@ -111,7 +115,7 @@
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../../developer_guide.html">
-  Developer’s guide
+  Developers’ Guide
  </a>
 </li>
 
@@ -144,6 +148,7 @@
 <h3><a href="../../../index.html">Table of Contents</a></h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../framework.html">Framework</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../io.html">Read/ write AcquisitionData and ImageData</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../optimisation.html">Optimisation framework</a></li>
@@ -152,7 +157,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../recon.html">Recon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plugins.html">CIL Plugins</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../developer_guide.html">Developer’s guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_guide.html">Developers’ Guide</a></li>
 </ul>
 
 <div id="searchbox" style="display: none" role="search">
@@ -188,21 +193,23 @@
                 
   <h1>Source code for cil.processors.RingRemover</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="c1">#   This work is part of the Core Imaging Library (CIL) developed by CCPi </span>
-<span class="c1">#   (Collaborative Computational Project in Tomographic Imaging), with </span>
-<span class="c1">#   substantial contributions by UKRI-STFC and University of Manchester.</span>
-
-<span class="c1">#   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
-<span class="c1">#   you may not use this file except in compliance with the License.</span>
-<span class="c1">#   You may obtain a copy of the License at</span>
-
-<span class="c1">#   http://www.apache.org/licenses/LICENSE-2.0</span>
-
-<span class="c1">#   Unless required by applicable law or agreed to in writing, software</span>
-<span class="c1">#   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
-<span class="c1">#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
-<span class="c1">#   See the License for the specific language governing permissions and</span>
-<span class="c1">#   limitations under the License.</span>
+<span class="c1">#  Copyright 2020 United Kingdom Research and Innovation</span>
+<span class="c1">#  Copyright 2020 The University of Manchester</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1">#</span>
+<span class="c1"># Authors:</span>
+<span class="c1"># CIL Developers, listed at: https://github.com/TomographicImaging/CIL/blob/master/NOTICE.txt</span>
 
 <span class="kn">from</span> <span class="nn">scipy.fftpack</span> <span class="kn">import</span> <span class="n">fftshift</span><span class="p">,</span> <span class="n">ifftshift</span><span class="p">,</span> <span class="n">fft</span><span class="p">,</span> <span class="n">ifft</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -210,16 +217,16 @@
 <span class="kn">from</span> <span class="nn">cil.framework</span> <span class="kn">import</span> <span class="n">Processor</span><span class="p">,</span> <span class="n">ImageData</span><span class="p">,</span> <span class="n">AcquisitionData</span>
 
 <div class="viewcode-block" id="RingRemover"><a class="viewcode-back" href="../../../processors.html#cil.processors.RingRemover">[docs]</a><span class="k">class</span> <span class="nc">RingRemover</span><span class="p">(</span><span class="n">Processor</span><span class="p">):</span>
-    
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        RingRemover Processor: Removes vertical stripes from a DataContainer(ImageData/AcquisitionData) </span>
 <span class="sd">        the algorithm in https://doi.org/10.1364/OE.17.008567</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
         
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decNum</span><span class="p">,</span> <span class="n">wname</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-        
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -281,7 +288,7 @@
             <span class="k">if</span> <span class="s1">&#39;vertical&#39;</span> <span class="ow">in</span> <span class="n">geom</span><span class="o">.</span><span class="n">dimension_labels</span><span class="p">:</span>
                                 
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">vertical</span><span class="p">):</span>
-                    <span class="n">tmp_corrected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xRemoveStripesVertical</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">subset</span><span class="p">(</span><span class="n">vertical</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">as_array</span><span class="p">(),</span> <span class="n">decNum</span><span class="p">,</span> <span class="n">wname</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span> 
+                    <span class="n">tmp_corrected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xRemoveStripesVertical</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">get_slice</span><span class="p">(</span><span class="n">vertical</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">as_array</span><span class="p">(),</span> <span class="n">decNum</span><span class="p">,</span> <span class="n">wname</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span> 
                     <span class="n">out</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">tmp_corrected</span><span class="p">,</span> <span class="n">vertical</span> <span class="o">=</span> <span class="n">i</span><span class="p">)</span>  
             
             <span class="c1"># for 2D data</span>
@@ -297,11 +304,11 @@
                 
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">channels</span><span class="p">):</span>
                     
-                    <span class="n">out_ch_i</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">subset</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
-                    <span class="n">data_ch_i</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">subset</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+                    <span class="n">out_ch_i</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">get_slice</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+                    <span class="n">data_ch_i</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get_slice</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
                     
                     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">vertical</span><span class="p">):</span>
-                        <span class="n">tmp_corrected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xRemoveStripesVertical</span><span class="p">(</span><span class="n">data_ch_i</span><span class="o">.</span><span class="n">subset</span><span class="p">(</span><span class="n">vertical</span><span class="o">=</span><span class="n">j</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">as_array</span><span class="p">(),</span> <span class="n">decNum</span><span class="p">,</span> <span class="n">wname</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+                        <span class="n">tmp_corrected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xRemoveStripesVertical</span><span class="p">(</span><span class="n">data_ch_i</span><span class="o">.</span><span class="n">get_slice</span><span class="p">(</span><span class="n">vertical</span><span class="o">=</span><span class="n">j</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">as_array</span><span class="p">(),</span> <span class="n">decNum</span><span class="p">,</span> <span class="n">wname</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
                         <span class="n">out_ch_i</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">tmp_corrected</span><span class="p">,</span> <span class="n">vertical</span> <span class="o">=</span> <span class="n">j</span><span class="p">)</span>
                         
                     <span class="n">out</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">out_ch_i</span><span class="o">.</span><span class="n">as_array</span><span class="p">(),</span> <span class="n">channel</span><span class="o">=</span><span class="n">i</span><span class="p">)</span> 
@@ -312,7 +319,7 @@
             <span class="c1"># for 2D data                        </span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">channels</span><span class="p">):</span>
-                        <span class="n">tmp_corrected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xRemoveStripesVertical</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">subset</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">as_array</span><span class="p">(),</span> <span class="n">decNum</span><span class="p">,</span> <span class="n">wname</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+                        <span class="n">tmp_corrected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xRemoveStripesVertical</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">get_slice</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">as_array</span><span class="p">(),</span> <span class="n">decNum</span><span class="p">,</span> <span class="n">wname</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
                         <span class="n">out</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">tmp_corrected</span><span class="p">,</span> <span class="n">channel</span> <span class="o">=</span> <span class="n">i</span><span class="p">)</span>
                         <span class="k">if</span> <span class="n">info</span><span class="p">:</span>
                             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Finish channel </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
@@ -323,8 +330,8 @@
 
           
 <div class="viewcode-block" id="RingRemover.xRemoveStripesVertical"><a class="viewcode-back" href="../../../processors.html#cil.processors.RingRemover.xRemoveStripesVertical">[docs]</a>    <span class="k">def</span> <span class="nf">xRemoveStripesVertical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ima</span><span class="p">,</span> <span class="n">decNum</span><span class="p">,</span> <span class="n">wname</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
-        
-        <span class="sd">&#39;&#39;&#39; Code from https://doi.org/10.1364/OE.17.008567 </span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Code from https://doi.org/10.1364/OE.17.008567 </span>
 <span class="sd">            translated in Python</span>
 <span class="sd">                            </span>
 <span class="sd">        Returns</span>
@@ -378,8 +385,9 @@
       </div>
     </div>
   
-    <script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
