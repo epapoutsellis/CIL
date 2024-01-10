@@ -312,7 +312,7 @@ other image processing tasks.</p>
 <div class="math notranslate nohighlight">
 \[\mathrm{prox}_{\tau (\alpha TV)}(x) = \underset{z}{\mathrm{argmin}} \,\alpha\,\mathrm{TV}(z) + \frac{1}{2}\|z - x\|^{2} .\]</div>
 <p>The algorithm used for the proximal operator of TV is the Fast Gradient Projection algorithm
-applied to the _dual <a href="#id8"><span class="problematic" id="id9">problem_</span></a> of the above problem, see <span id="id1">[<a class="reference internal" href="optimisation.html#id28" title="Amir Beck and Marc Teboulle. A fast iterative shrinkage-thresholding algorithm for linear inverse problems. SIAM Journal on Imaging Sciences, 2(1):183-202, 2009. URL: https://doi.org/10.1137/080716542, arXiv:https://doi.org/10.1137/080716542, doi:10.1137/080716542.">1</a>]</span>, <span id="id2">[<a class="reference internal" href="optimisation.html#id27" title="Amir Beck and Marc Teboulle. Fast gradient-based algorithms for constrained total variation image denoising and deblurring problems. IEEE Transactions on Image Processing, 18(11):2419-2434, 2009. doi:10.1109/TIP.2009.2028250.">2</a>]</span>.</p>
+applied to the _dual <a href="#id8"><span class="problematic" id="id9">problem_</span></a> of the above problem, see <span id="id1">[<a class="reference internal" href="optimisation.html#id34" title="Amir Beck and Marc Teboulle. A fast iterative shrinkage-thresholding algorithm for linear inverse problems. SIAM Journal on Imaging Sciences, 2(1):183-202, 2009. URL: https://doi.org/10.1137/080716542, arXiv:https://doi.org/10.1137/080716542, doi:10.1137/080716542.">1</a>]</span>, <span id="id2">[<a class="reference internal" href="optimisation.html#id33" title="Amir Beck and Marc Teboulle. Fast gradient-based algorithms for constrained total variation image denoising and deblurring problems. IEEE Transactions on Image Processing, 18(11):2419-2434, 2009. doi:10.1109/TIP.2009.2028250.">2</a>]</span>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -388,7 +388,7 @@ Therefore a rescaled parameter should be used to match the same solution compute
 <dl class="py method">
 <dt id="cil.plugins.ccpi_regularisation.functions.TGV.__call__">
 <code class="sig-name descname"><span class="pre">__call__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cil/plugins/ccpi_regularisation/functions/regularisers.html#TGV.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cil.plugins.ccpi_regularisation.functions.TGV.__call__" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the value of the function F at x: <span class="math notranslate nohighlight">\(F(x)\)</span></p>
+<dd><p>Call self as a function.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -396,7 +396,7 @@ Therefore a rescaled parameter should be used to match the same solution compute
 <code class="sig-name descname"><span class="pre">convex_conjugate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cil/plugins/ccpi_regularisation/functions/regularisers.html#TGV.convex_conjugate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cil.plugins.ccpi_regularisation.functions.TGV.convex_conjugate" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the convex conjugate of function <span class="math notranslate nohighlight">\(F\)</span> at <span class="math notranslate nohighlight">\(x^{*}\)</span>,</p>
 <div class="math notranslate nohighlight">
-\[F^{*}(x^{*}) = \underset{x^{*}}{\sup} &lt;x^{*}, x&gt; - F(x)\]</div>
+\[F^{*}(x^{*}) = \underset{x^{*}}{\sup} \langle x^{*}, x \rangle - F(x)\]</div>
 </dd></dl>
 
 <dl class="py method">
@@ -435,7 +435,7 @@ Therefore a rescaled parameter should be used to match the same solution compute
 <dl class="py method">
 <dt id="cil.plugins.ccpi_regularisation.functions.FGP_dTV.__call__">
 <code class="sig-name descname"><span class="pre">__call__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cil/plugins/ccpi_regularisation/functions/regularisers.html#FGP_dTV.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cil.plugins.ccpi_regularisation.functions.FGP_dTV.__call__" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the value of the function F at x: <span class="math notranslate nohighlight">\(F(x)\)</span></p>
+<dd><p>Call self as a function.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -443,7 +443,7 @@ Therefore a rescaled parameter should be used to match the same solution compute
 <code class="sig-name descname"><span class="pre">convex_conjugate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cil/plugins/ccpi_regularisation/functions/regularisers.html#FGP_dTV.convex_conjugate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cil.plugins.ccpi_regularisation.functions.FGP_dTV.convex_conjugate" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the convex conjugate of function <span class="math notranslate nohighlight">\(F\)</span> at <span class="math notranslate nohighlight">\(x^{*}\)</span>,</p>
 <div class="math notranslate nohighlight">
-\[F^{*}(x^{*}) = \underset{x^{*}}{\sup} &lt;x^{*}, x&gt; - F(x)\]</div>
+\[F^{*}(x^{*}) = \underset{x^{*}}{\sup} \langle x^{*}, x \rangle - F(x)\]</div>
 </dd></dl>
 
 <dl class="py method">
@@ -476,7 +476,7 @@ Therefore a rescaled parameter should be used to match the same solution compute
 <dl class="py method">
 <dt id="cil.plugins.ccpi_regularisation.functions.TNV.__call__">
 <code class="sig-name descname"><span class="pre">__call__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cil/plugins/ccpi_regularisation/functions/regularisers.html#TNV.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cil.plugins.ccpi_regularisation.functions.TNV.__call__" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the value of the function F at x: <span class="math notranslate nohighlight">\(F(x)\)</span></p>
+<dd><p>Call self as a function.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -484,7 +484,7 @@ Therefore a rescaled parameter should be used to match the same solution compute
 <code class="sig-name descname"><span class="pre">convex_conjugate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cil/plugins/ccpi_regularisation/functions/regularisers.html#TNV.convex_conjugate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cil.plugins.ccpi_regularisation.functions.TNV.convex_conjugate" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the convex conjugate of function <span class="math notranslate nohighlight">\(F\)</span> at <span class="math notranslate nohighlight">\(x^{*}\)</span>,</p>
 <div class="math notranslate nohighlight">
-\[F^{*}(x^{*}) = \underset{x^{*}}{\sup} &lt;x^{*}, x&gt; - F(x)\]</div>
+\[F^{*}(x^{*}) = \underset{x^{*}}{\sup} \langle x^{*}, x \rangle - F(x)\]</div>
 </dd></dl>
 
 <dl class="py method">
